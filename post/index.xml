@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on My New Hugo Site</title>
+    <link>https://chuxinglong.github.io/post/</link>
+    <description>Recent content in Posts on My New Hugo Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 06 Nov 2022 16:53:38 +0800</lastBuildDate><atom:link href="https://chuxinglong.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>CSRF攻击</title>
+      <link>https://chuxinglong.github.io/post/blog/</link>
+      <pubDate>Sun, 06 Nov 2022 16:53:38 +0800</pubDate>
+      
+      <guid>https://chuxinglong.github.io/post/blog/</guid>
+      <description>CSRF攻击全称 跨站请求伪造 。 是一种对网站得恶意利用。CSRF是通过伪装来自受信任用户得请求去利用受攻击的网站。 攻击者盗用了访问用户的身份，以访问者的名义向第三方网站发送恶意请求，常用于利用访问者的身份发送消息，进行交易转账以及盗取账号。 ###1.攻击原理 如果某个支付系统的转账地址为www.xxx.com/pay?accountNum=xxxx&amp;amp;money=xxx 。其中accountNum为转账目的的账户，money为转账金额。那这个时候如果你刚巧登陆过了该支付系统，又没有及时的登出，在访问恶意站点 的时候，如果你点开了某张图片，而图片的地址为： &amp;lt;img src=&amp;quot;www.xxx.com/pay?accountNum=xxxx&amp;amp;money=xxx&amp;quot; /&amp;gt; 当你浏览图片的时候，却不知道此时你的账户上已经悄悄的少了指定金额！ 这就是因为你没有及时登出支付系统，而又点击了恶意站点 的恶意链接，携带了你未过期的cookie，成功窃取了你的金额。 ###2.防护手段 #####1）将cookie设置为HttpOnly CSRF攻击的关键在于利用了用户未过期的Cookie，那么为了防止Cookie的盗取，就需要在Cookie中设置HttpOnly属性为true，禁止js访问。这样通过程序（XSS攻击）就无法读取到Cookie信息，避免了攻击者伪造Cookie的情况出现。 #####2）增加Token 该防护手段还是针对Cookie的盗取，由于请求中所有的用户验证信息都存放在Cookeie中，我们抵御CSRF的关键在于：如何在请求中放入攻击者所不能伪造的信息 ，并且该信息不能存放在Cookie中。那么我们就可以在请求中加入一个随机生成的Token，当请求来的时候对Token进行校验，如果检验不通过则认为是CSRF攻击拒绝请求。 #####3）通过Referer 根据HTTP 协议，在HTTP 请求头上有一个字段叫做referer，它记录了该HTTP请求的来源地址。在通常情况下，访问一个安全受限的页面请求都来自同一个网站。 在CSRF中恶意请求是从恶意站点 发出的，因此要防御SCRF攻击，需要对每一个请求验证其referer值即可。</description>
+    </item>
+    
+  </channel>
+</rss>

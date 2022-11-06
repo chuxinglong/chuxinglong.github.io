@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <title>CSRF攻击 // My New Hugo Site</title>
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.105.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="John Doe" />
+    <meta name="description" content="" />
+    <link rel="stylesheet" href="/css/main.min.0fb49e70a30412f97ddfc418e18fefef1d9fcdebe45f634dbbba768b00fe1eec.css" />
+
+    
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="CSRF攻击"/>
+<meta name="twitter:description" content="CSRF攻击全称 跨站请求伪造 。 是一种对网站得恶意利用。CSRF是通过伪装来自受信任用户得请求去利用受攻击的网站。 攻击者盗用了访问用户的身份，以访问者的名义向第三方网站发送恶意请求，常用于利用访问者的身份发送消息，进行交易转账以及盗取账号。 ###1.攻击原理 如果某个支付系统的转账地址为www.xxx.com/pay?accountNum=xxxx&amp;money=xxx 。其中accountNum为转账目的的账户，money为转账金额。那这个时候如果你刚巧登陆过了该支付系统，又没有及时的登出，在访问恶意站点 的时候，如果你点开了某张图片，而图片的地址为： &lt;img src=&quot;www.xxx.com/pay?accountNum=xxxx&amp;money=xxx&quot; /&gt; 当你浏览图片的时候，却不知道此时你的账户上已经悄悄的少了指定金额！ 这就是因为你没有及时登出支付系统，而又点击了恶意站点 的恶意链接，携带了你未过期的cookie，成功窃取了你的金额。 ###2.防护手段 #####1）将cookie设置为HttpOnly CSRF攻击的关键在于利用了用户未过期的Cookie，那么为了防止Cookie的盗取，就需要在Cookie中设置HttpOnly属性为true，禁止js访问。这样通过程序（XSS攻击）就无法读取到Cookie信息，避免了攻击者伪造Cookie的情况出现。 #####2）增加Token 该防护手段还是针对Cookie的盗取，由于请求中所有的用户验证信息都存放在Cookeie中，我们抵御CSRF的关键在于：如何在请求中放入攻击者所不能伪造的信息 ，并且该信息不能存放在Cookie中。那么我们就可以在请求中加入一个随机生成的Token，当请求来的时候对Token进行校验，如果检验不通过则认为是CSRF攻击拒绝请求。 #####3）通过Referer 根据HTTP 协议，在HTTP 请求头上有一个字段叫做referer，它记录了该HTTP请求的来源地址。在通常情况下，访问一个安全受限的页面请求都来自同一个网站。 在CSRF中恶意请求是从恶意站点 发出的，因此要防御SCRF攻击，需要对每一个请求验证其referer值即可。"/>
+
+    <meta property="og:title" content="CSRF攻击" />
+<meta property="og:description" content="CSRF攻击全称 跨站请求伪造 。 是一种对网站得恶意利用。CSRF是通过伪装来自受信任用户得请求去利用受攻击的网站。 攻击者盗用了访问用户的身份，以访问者的名义向第三方网站发送恶意请求，常用于利用访问者的身份发送消息，进行交易转账以及盗取账号。 ###1.攻击原理 如果某个支付系统的转账地址为www.xxx.com/pay?accountNum=xxxx&amp;money=xxx 。其中accountNum为转账目的的账户，money为转账金额。那这个时候如果你刚巧登陆过了该支付系统，又没有及时的登出，在访问恶意站点 的时候，如果你点开了某张图片，而图片的地址为： &lt;img src=&quot;www.xxx.com/pay?accountNum=xxxx&amp;money=xxx&quot; /&gt; 当你浏览图片的时候，却不知道此时你的账户上已经悄悄的少了指定金额！ 这就是因为你没有及时登出支付系统，而又点击了恶意站点 的恶意链接，携带了你未过期的cookie，成功窃取了你的金额。 ###2.防护手段 #####1）将cookie设置为HttpOnly CSRF攻击的关键在于利用了用户未过期的Cookie，那么为了防止Cookie的盗取，就需要在Cookie中设置HttpOnly属性为true，禁止js访问。这样通过程序（XSS攻击）就无法读取到Cookie信息，避免了攻击者伪造Cookie的情况出现。 #####2）增加Token 该防护手段还是针对Cookie的盗取，由于请求中所有的用户验证信息都存放在Cookeie中，我们抵御CSRF的关键在于：如何在请求中放入攻击者所不能伪造的信息 ，并且该信息不能存放在Cookie中。那么我们就可以在请求中加入一个随机生成的Token，当请求来的时候对Token进行校验，如果检验不通过则认为是CSRF攻击拒绝请求。 #####3）通过Referer 根据HTTP 协议，在HTTP 请求头上有一个字段叫做referer，它记录了该HTTP请求的来源地址。在通常情况下，访问一个安全受限的页面请求都来自同一个网站。 在CSRF中恶意请求是从恶意站点 发出的，因此要防御SCRF攻击，需要对每一个请求验证其referer值即可。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://chuxinglong.github.io/post/blog/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2022-11-06T16:53:38+08:00" />
+<meta property="article:modified_time" content="2022-11-06T16:53:38+08:00" />
+
+
+
+  </head>
+  <body>
+    <header class="app-header">
+      <a href="https://chuxinglong.github.io/"><img class="app-header-avatar" src="/avatar.jpg" alt="John Doe" /></a>
+      <span class="app-header-title">My New Hugo Site</span>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vehicula turpis sit amet elit pretium.</p>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">CSRF攻击</h1>
+      <div class="post-meta">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          Nov 6, 2022
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+          1 min read
+        </div>
+      </div>
+    </header>
+    <div class="post-content">
+      <p>CSRF攻击全称 <code>跨站请求伪造 </code>。 是一种对网站得恶意利用。CSRF是通过伪装来自受信任用户得请求去利用受攻击的网站。
+攻击者盗用了访问用户的身份，以访问者的名义向第三方网站发送恶意请求，常用于利用访问者的身份发送消息，进行交易转账以及盗取账号。
+###1.攻击原理
+<img src="https://upload-images.jianshu.io/upload_images/24621762-74313a472e1e3e6b.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="微信图片_20220113102006.jpg">
+如果某个支付系统的转账地址为<code>www.xxx.com/pay?accountNum=xxxx&amp;money=xxx </code>。其中accountNum为转账目的的账户，money为转账金额。那这个时候如果你刚巧登陆过了该支付系统，又没有及时的登出，在访问<code>恶意站点 </code> 的时候，如果你点开了某张图片，而图片的地址为： <code>&lt;img src=&quot;www.xxx.com/pay?accountNum=xxxx&amp;money=xxx&quot; /&gt;</code>
+当你浏览图片的时候，却不知道此时你的账户上已经悄悄的少了指定金额！
+这就是因为你没有及时登出<code>支付系统</code>，而又点击了<code>恶意站点 </code> 的<code>恶意链接</code>，携带了你未过期的cookie，成功窃取了你的金额。
+###2.防护手段
+#####1）将cookie设置为HttpOnly
+CSRF攻击的关键在于利用了用户未过期的Cookie，那么为了防止Cookie的盗取，就需要在Cookie中设置HttpOnly属性为true，禁止js访问。这样通过程序<code>（XSS攻击）</code>就无法读取到Cookie信息，避免了攻击者伪造Cookie的情况出现。
+#####2）增加Token
+该防护手段还是针对Cookie的盗取，由于请求中所有的用户验证信息都存放在Cookeie中，我们抵御CSRF的关键在于：<code>如何在请求中放入攻击者所不能伪造的信息 </code>，并且该信息不能存放在Cookie中。那么我们就可以在请求中加入一个随机生成的Token，当请求来的时候对Token进行校验，如果检验不通过则认为是CSRF攻击拒绝请求。
+#####3）通过Referer
+根据<code>HTTP </code>协议，在<code>HTTP</code> 请求头上有一个字段叫做referer，它记录了该<code>HTTP</code>请求的来源地址。在通常情况下，访问一个安全受限的页面请求都来自同一个网站。
+在CSRF中恶意请求是从<code>恶意站点 </code>发出的，因此要防御SCRF攻击，需要对每一个请求验证其<code>referer</code>值即可。</p>
+
+    </div>
+    <div class="post-footer">
+      
+    </div>
+  </article>
+
+    </main>
+  </body>
+</html>
